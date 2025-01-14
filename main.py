@@ -14,7 +14,7 @@ workbook = xlsxwriter.Workbook(filename)
 worksheet0 = workbook.add_worksheet('Full 0')
 worksheet1 = workbook.add_worksheet('Full 1')
 
-# Definició de formats
+# ESTILOSS
 red_background = workbook.add_format({'bg_color': '#FF0000', 'font_color': '#FFFFFF', 'align': 'center'})
 green_background = workbook.add_format({'bg_color': '#20fc03', 'font_color': '#000000', 'align': 'center'})
 
@@ -25,38 +25,33 @@ def calcularMitja(info):
     return notaFinal
 
 def crear_hoja(worksheet, noms):
-    # Afegir capçaleres
+    #Possar les capçaleres amb el num de la cassella
     if noms == "Nom":
         worksheet.write(0, 0, "Nom")
     else:
         worksheet.write(0, 0, "Identificació")
-    worksheet.write(0, 1, 'PR01')
-    worksheet.write(0, 2, 'PR02')
-    worksheet.write(0, 3, 'PR03')
-    worksheet.write(0, 4, 'PR04')
-    worksheet.write(0, 5, 'EX01')
-    worksheet.write(0, 6, '%Faltes')
-    worksheet.write(0, 7, 'Vàlid')
-    worksheet.write(0, 8, 'Total')
+        worksheet.write(0, 1, 'PR01')
+        worksheet.write(0, 2, 'PR02')
+        worksheet.write(0, 3, 'PR03')
+        worksheet.write(0, 4, 'PR04')
+        worksheet.write(0, 5, 'EX01')
+        worksheet.write(0, 6, '%Faltes')
+        worksheet.write(0, 7, 'Vàlid')
+        worksheet.write(0, 8, 'Total')
 
-    # Omplir dades
     for x, alumne in enumerate(data):
         fila = x + 1
-        # Columna noms/identificació
         if noms == "Nom":
             worksheet.write(fila, 0, alumne["Name"])
         else:
             worksheet.write(fila, 0, alumne["id"][1:5])
 
-        # Notes (amb formats)
         notes = [alumne["PR01"], alumne["PR02"], alumne["PR03"], alumne["PR04"], alumne["EX01"]]
         for col, nota in enumerate(notes, 1):
             worksheet.write(fila, col, nota)
         
-        # % Faltes
         worksheet.write(fila, 6, alumne["%Faltes"])
 
-        # Vàlid
         if alumne["%Faltes"] <= 20 and alumne["EX01"] >= 4:
             worksheet.write(fila, 7, "true")
             mitja = calcularMitja(alumne)
@@ -64,10 +59,8 @@ def crear_hoja(worksheet, noms):
             worksheet.write(fila, 7, "false")
             mitja = 1
 
-        # Nota final
         worksheet.write(fila, 8, mitja)
-
-    # Formats condicionals
+        
     worksheet.conditional_format(f'B2:F{len(data) + 1}', {
         'type': 'cell',
         'criteria': '<',
@@ -87,7 +80,7 @@ def crear_hoja(worksheet, noms):
         'format': green_background
     })
 
-# Crear les dues taules
+# Creación de las tablas
 crear_hoja(worksheet0, "Nom")
 crear_hoja(worksheet1, "Id")
 
