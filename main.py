@@ -26,8 +26,17 @@ def calcularMitja(info):
 
 def crear_hoja(worksheet, noms):
     #Possar les capçaleres amb el num de la cassella
-    if noms == "Nom":
+    if noms == "Nom" or noms=="Id":
         worksheet.write(0, 0, "Nom")
+        worksheet.write(0, 0, "Identificació")
+        worksheet.write(0, 1, 'PR01')
+        worksheet.write(0, 2, 'PR02')
+        worksheet.write(0, 3, 'PR03')
+        worksheet.write(0, 4, 'PR04')
+        worksheet.write(0, 5, 'EX01')
+        worksheet.write(0, 6, '%Faltes')
+        worksheet.write(0, 7, 'Vàlid')
+        worksheet.write(0, 8, 'Total')
     else:
         worksheet.write(0, 0, "Identificació")
         worksheet.write(0, 1, 'PR01')
